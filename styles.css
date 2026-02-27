@@ -1,0 +1,993 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+
+/* --- Personalización de la Barra de Desplazamiento --- */
+
+/* 1. Tamaño de la barra (ancho para vertical, alto para horizontal) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* 2. El fondo de la barra (Track) */
+::-webkit-scrollbar-track {
+    background: #fdfbfb; /* Un blanco casi rosado para que no resalte demasiado */
+}
+
+/* 3. La parte que se mueve (Thumb) */
+::-webkit-scrollbar-thumb {
+    background: #F7E7E2; /* Tu color Champán Rosado claro */
+    border-radius: 10px; /* Bordes redondeados para suavidad */
+    border: 2px solid #fdfbfb; /* Crea un pequeño margen alrededor */
+}
+
+/* 4. Color cuando pasas el mouse por encima (Hover) */
+::-webkit-scrollbar-thumb:hover {
+    background: #fd3802; /* Un rosado apenas más oscuro para dar feedback */
+}
+
+/* Estilo para Firefox (Soporte limitado pero útil) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #f582eb #fdfbfb;
+}
+
+
+
+
+
+
+
+/* Configuraciones generales */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Esto elimina el vaivén lateral */
+  position: relative;
+}
+
+/* Configuración del desplazamiento magnético */
+html {
+  scroll-snap-type: y mandatory; /* Obliga a la página a detenerse en secciones */
+  scroll-behavior: smooth;
+}
+
+section {
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start; /* El punto de anclaje es el inicio de la sección */
+  scroll-snap-stop: always; /* Evita que se salte varias secciones de un solo golpe */
+  position: relative;
+}
+
+/* !SECCION 1 */
+/* Estado inicial del contenido (invisible y un poco abajo) */
+.content {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s ease-out; /* Velocidad de la transición */
+}
+
+/* Estado final cuando el observador lo activa */
+.content.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Contenedor principal de la sección de video */
+.video-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* El video como fondo */
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover; /* Clave para que el video vertical no se estire */
+  z-index: -1;
+}
+
+/* Capa de contraste (Overlay) */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(45, 45, 45, 0.3); /* Un velo oscuro suave */
+  backdrop-filter: blur(2px); /* Un desenfoque muy ligero al video */
+  z-index: 0;
+}
+
+/* Contenido sobre el video */
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #f7e7e2; /* Tu color Champán */
+  padding: 0 20px;
+}
+
+.content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Imágenes de fondo (Sustituye con tus fotos) */
+.bg1 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("foto1.jpg");
+}
+.bg2 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("foto2.jpg");
+}
+
+/* Bloques de texto minimalistas */
+.spacer {
+  height: 60vh;
+  background: #fff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.text-block {
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* --- Sección de Galería (Mobile-First) --- */
+
+/* --- Contenedor Principal de la Sección Mágica --- */
+.magic-gallery-section {
+  position: relative;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+/* --- Ajuste de la Galería Automática --- */
+.gallery-container {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  width: 300%; /* Para las 3 fotos */
+  animation: galeriaAuto 18s infinite ease-in-out; /* Un poco más lento para disfrutar las fotos */
+  margin: 0;
+  padding: 0;
+}
+
+.gallery-item {
+  width: 100vw; /* Cada slide ocupa exactamente el ancho de la pantalla */
+  height: 100dvh;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* La Imagen Estilo Postal */
+.gallery-img {
+  width: 80%;
+  height: 60dvh;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 5px solid white;
+  /* Eliminamos márgenes absolutos para que el flexbox la centre */
+}
+
+/* El cuadro de texto sobre la foto (CORREGIDO) */
+.gallery-text {
+  position: absolute; /* Se posiciona respecto al gallery-item */
+  bottom: 12dvh;
+  width: 75%; /* Ancho relativo a la foto para que no se salga */
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 15px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  text-align: center;
+  box-sizing: border-box;
+}
+.gallery-text h3 {
+  font-family: "Cormorant Garamond", serif;
+  color: #6b2d33;
+  font-size: 1.4rem;
+  margin: 0 0 5px 0;
+}
+.gallery-text p {
+  font-family: "Montserrat", sans-serif;
+  color: #2d2d2d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* --- Animación de Desplazamiento Automático (REFINADA) --- */
+@keyframes galeriaAuto {
+  0%,
+  28% {
+    transform: translateX(0);
+  } /* Foto 1 */
+  33%,
+  61% {
+    transform: translateX(-100vw);
+  } /* Foto 2 */
+  66%,
+  94% {
+    transform: translateX(-200vw);
+  } /* Foto 3 */
+  100% {
+    transform: translateX(0);
+  } /* Regreso */
+}
+
+/* --- Imagen Estilo Postal (Se mantiene igual) --- */
+.gallery-img {
+  width: 80%;
+  height: 60dvh;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 5px solid white;
+}
+
+/* --- El resto (Corazones y Textos) déjalo igual, está perfecto --- */
+
+/* El cuadro de texto sobre la foto (sin cambios, ya era elegante) */
+.gallery-text {
+  position: absolute;
+  bottom: 10dvh;
+  left: 10%;
+  right: 10%;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 15px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  text-align: center;
+}
+
+.gallery-text h3 {
+  font-family: "Cormorant Garamond", serif;
+  color: #6b2d33;
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+.gallery-text p {
+  font-family: "Montserrat", sans-serif;
+  color: #2d2d2d;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   ANIMACIÓN DE CORAZONES FLOTANTES (CSS)
+   ========================================= */
+
+.hearts-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Detrás de las fotos */
+  pointer-events: none; /* No interfieren con el toque */
+}
+
+.heart {
+  position: absolute;
+  bottom: -50px; /* Empiezan fuera de la pantalla */
+  width: 20px;
+  height: 20px;
+  background-color: #6b2d33; /* Usamos el Vino Terroso de la paleta */
+  transform: rotate(-45deg);
+  opacity: 0.5; /* Sutiles */
+  animation: floatUp 10s infinite linear;
+}
+
+/* Crear la forma del corazón con pseudo-elementos */
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #6b2d33;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart::after {
+  top: 0;
+  left: 10px;
+}
+
+/* --- Sección del Mensaje --- */
+.message-section {
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    #f7e7e2 0%,
+    #ffffff 100%
+  ); /* Fondo Pastel Champán */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Tarjeta Flotante con Desenfoque */
+.message-card {
+  width: 85%;
+  max-width: 400px; /* Tamaño ideal para móvil */
+  padding: 40px 30px;
+  background: rgba(255, 255, 255, 0.4); /* Blanco traslúcido */
+  backdrop-filter: blur(15px); /* Efecto Glassmorphism intenso */
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 30px;
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Toque dorado sutil */
+  box-shadow: 0 15px 35px rgba(107, 45, 51, 0.1);
+  z-index: 2;
+  text-align: center;
+  position: relative; /* Para posicionar el cursor */
+}
+
+.message-content {
+  display: inline-block; /* Para que el cursor se alinee al final del texto */
+  text-align: center;
+}
+.message-content p {
+  font-family: "Montserrat", sans-serif;
+  color: #2d2d2d; /* Negro Carbón para legibilidad */
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-weight: 400;
+  margin: 20px 0;
+  display: inline; /* Importante para que el cursor siga al texto */
+}
+.typing-cursor {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.2rem;
+  color: #6b2d33; /* Vino Terroso */
+  font-weight: bold;
+  animation: blink 1s infinite; /* Animación de parpadeo */
+  margin-left: 2px;
+  display: inline-block;
+  vertical-align: middle;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Detalles decorativos */
+.quote-icon {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 4rem;
+  color: #6b2d33; /* Vino Terroso */
+  line-height: 0;
+  display: block;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+
+.heart-divider {
+  color: #6b2d33;
+  font-size: 1.5rem;
+  display: block;
+  margin-top: 15px;
+  animation: pulse 2s infinite; /* El corazoncito del final late */
+}
+
+/* Animación de latido para el divisor */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Definir la animación de flotar */
+@keyframes floatUp {
+  0% {
+    transform: rotate(-45deg) translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(-45deg) translateY(-110dvh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Variaciones para que no suban todos igual (puedes añadir más) */
+.heart:nth-child(1) {
+  left: 10%;
+  animation-duration: 8s;
+  animation-delay: 0s;
+  width: 15px;
+  height: 15px;
+}
+.heart:nth-child(1)::before,
+.heart:nth-child(1)::after {
+  width: 15px;
+  height: 15px;
+}
+
+.heart:nth-child(2) {
+  left: 30%;
+  animation-duration: 12s;
+  animation-delay: 2s;
+  background-color: #d4af37;
+} /* Un corazón dorado */
+.heart:nth-child(2)::before,
+.heart:nth-child(2)::after {
+  background-color: #d4af37;
+}
+
+.heart:nth-child(3) {
+  left: 50%;
+  animation-duration: 9s;
+  animation-delay: 4s;
+  opacity: 0.3;
+}
+.heart:nth-child(4) {
+  left: 70%;
+  animation-duration: 15s;
+  animation-delay: 1s;
+  width: 25px;
+  height: 25px;
+}
+.heart:nth-child(4)::before,
+.heart:nth-child(4)::after {
+  width: 25px;
+  height: 25px;
+}
+
+.heart:nth-child(5) {
+  left: 85%;
+  animation-duration: 11s;
+  animation-delay: 3s;
+}
+.heart:nth-child(6) {
+  left: 15%;
+  animation-duration: 13s;
+  animation-delay: 5s;
+  background-color: #d4af37;
+}
+.heart:nth-child(6)::before,
+.heart:nth-child(6)::after {
+  background-color: #d4af37;
+}
+.heart:nth-child(7) {
+  left: 40%;
+  animation-duration: 10s;
+  animation-delay: 6s;
+}
+.heart:nth-child(8) {
+  left: 60%;
+  animation-duration: 14s;
+  animation-delay: 7s;
+}
+
+/*! SECCION 4 */
+
+/* --- Sección de Recapitulacion (CENTRO PERFECTO) --- */
+/* --- Sección de Recapitulacion (CON FONDO ANIMADO Y FIGURAS FLOTANTES) --- */
+.video-recap-section {
+  height: 100dvh;
+  width: 100vw;
+  /* 1. Fondo base degradado */
+  background: linear-gradient(135deg, #f7e7e2 0%, #ffffff 50%, #f9f0ed 100%);
+  background-size: 200% 200%; /* Tamaño doble para la animación */
+
+  /* 2. Añadimos la animación del fondo */
+  animation: gradientBackground 8s infinite alternate ease-in-out;
+
+  display: flex;
+  justify-content: center; /* Centro horizontal */
+  align-items: center; /* Centro vertical */
+  padding: 0;
+  overflow: hidden;
+  position: relative; /* Crucial para las figuras flotantes */
+}
+
+/* --- Definición de la Animación del Fondo --- */
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Detalle visual sutil para 'llenar' el espacio */
+.video-recap-section::after {
+  content: "";
+  position: absolute;
+  bottom: -15dvh;
+  left: -15dvh;
+  width: 40dvh;
+  height: 40dvh;
+  background-color: #f7e7e2; /* Tu color base */
+  border-radius: 50%;
+  filter: blur(80px); /* Desenfoque extremo */
+  opacity: 0.7;
+  z-index: 1; /* Detrás del video-recap-content */
+}
+
+.video-recap-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Asegura que hijos se centren */
+  justify-content: center;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  z-index: 2; /* Por delante de la esfera difuminada */
+}
+
+/* La Frase Profunda */
+.deep-phrase {
+  font-family: "Cormorant Garamond", serif;
+  color: #6b2d33;
+  font-size: 1.4rem; /* Ajustado para mejor legibilidad */
+  font-style: italic;
+  margin-bottom: 25px;
+  line-height: 1.4;
+  max-width: 90%;
+}
+
+/* =========================================
+   NUEVO: ESTILOS PARA FIGURAS FLOTANTES (CSS)
+   ========================================= */
+
+.floating-figures-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Detrás del video-frame */
+  pointer-events: none; /* No interfieren con el toque */
+}
+
+.figure {
+  position: absolute;
+  opacity: 0.4; /* Sutiles */
+  animation: figureOrbit 15s infinite ease-in-out;
+}
+
+/* Crear la forma básica (círculo) */
+.figure::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #d4af37; /* Usamos el Dorado de la paleta */
+  border-radius: 50%; /* Por defecto circulos */
+}
+
+/* Definir la animación de orbita sutil */
+@keyframes figureOrbit {
+  0% {
+    transform: rotate(0deg) translateX(0px) translateY(0px) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: rotate(180deg) translateX(20px) translateY(10px) scale(1.1);
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: rotate(360deg) translateX(0px) translateY(0px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Variaciones para que no suban todos igual (puedes añadir más) */
+.figure-1 {
+  left: 10%;
+  top: 20%;
+  animation-duration: 12s;
+  animation-delay: 0s;
+  width: 15px;
+  height: 15px;
+}
+.figure-1::before {
+  background-color: #6b2d33;
+} /* Vino Terroso */
+
+.figure-2 {
+  left: 30%;
+  bottom: 30%;
+  animation-duration: 18s;
+  animation-delay: 2s;
+  width: 20px;
+  height: 20px;
+}
+.figure-2::before {
+  border-radius: 0;
+  background-color: #d4af37;
+} /* Cuadrado Dorado */
+
+.figure-3 {
+  left: 50%;
+  top: 40%;
+  animation-duration: 14s;
+  animation-delay: 4s;
+  width: 10px;
+  height: 10px;
+}
+.figure-3::before {
+  background-color: #6b2d33;
+}
+
+.figure-4 {
+  left: 70%;
+  bottom: 20%;
+  animation-duration: 20s;
+  animation-delay: 1s;
+  width: 25px;
+  height: 25px;
+}
+.figure-4::before {
+  border-radius: 0;
+  background-color: #d4af37;
+} /* Cuadrado Dorado */
+
+.figure-5 {
+  left: 85%;
+  top: 60%;
+  animation-duration: 16s;
+  animation-delay: 3s;
+  width: 18px;
+  height: 18px;
+}
+.figure-5::before {
+  background-color: #6b2d33;
+}
+
+.figure-6 {
+  left: 15%;
+  top: 70%;
+  animation-duration: 19s;
+  animation-delay: 5s;
+  width: 12px;
+  height: 12px;
+}
+.figure-6::before {
+  border-radius: 0;
+  background-color: #d4af37;
+} /* Cuadrado Dorado */
+
+/* El Marco del Video (Se mantiene igual) */
+.video-frame {
+  position: relative;
+  z-index: 2; /* Por delante de las figuras flotantes */
+  width: 85%; /* Tamaño ideal en móvil */
+  background: white;
+  padding: 10px;
+  border-radius: 30px;
+  box-shadow: 0 15px 40px rgba(107, 45, 51, 0.2);
+  box-sizing: border-box; /* Crucial para que el padding no lo desplace */
+}
+
+.video-inner-border {
+  border-radius: 22px;
+  overflow: hidden;
+  line-height: 0; /* Elimina espacios fantasma debajo del video */
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.recap-video {
+  width: 100%;
+  height: auto;
+  max-height: 60dvh; /* Evita que el video sea más alto que la pantalla */
+  display: block;
+  object-fit: cover;
+}
+
+/* Detalle decorativo (Círculo Dorado) (Se mantiene igual) */
+.frame-detail {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 35px;
+  height: 35px;
+  background-color: #d4af37;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.5;
+}
+/*! seccion 5 */
+/* --- Sección de Transición GIF --- */
+.gif-transition-section {
+    padding-top: 100px;
+  height: 100dvh;
+  width: 100vw;
+  /* Usamos el MISMO fondo que la sección 4 para continuidad */
+  background: linear-gradient(135deg, #f7e7e2 0%, #ffffff 50%, #f9f0ed 100%);
+  background-size: 200% 200%;
+  animation: gradientBackground 8s infinite alternate ease-in-out;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.gif-content {
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+}
+
+/* El contenedor del GIF con un desenfoque sutil alrededor */
+.gif-wrapper {
+  margin-bottom: 30px;
+  filter: drop-shadow(0 10px 15px rgba(107, 45, 51, 0.1));
+}
+
+.minimal-gif {
+  width: 100%;
+  max-width: 250px; /* Tamaño discreto y elegante */
+  border-radius: 20px;
+  mix-blend-mode: multiply; /* Si el GIF tiene fondo blanco, esto lo hace transparente */
+}
+
+.soft-phrase {
+  font-family: "Cormorant Garamond", serif;
+  color: #000000; /* Tu Vino Terroso */
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* !seccion 6 */
+/* --- Sección de Agradecimiento (Nuevo) --- */
+.thanks-section {
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  /* Fondo Pastel: degradado suave Champán */
+  background: linear-gradient(135deg, #f7e7e2 0%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Tarjeta Flotante con Desenfoque y Sombra (Glassmorphism) */
+.thanks-card {
+  width: 85%;
+  max-width: 450px; /* Tamaño ideal para móvil */
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.4); /* Blanco traslúcido */
+  backdrop-filter: blur(15px); /* Efecto Glassmorphism intenso */
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 30px;
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Toque dorado sutil */
+  box-shadow: 0 15px 35px rgba(107, 45, 51, 0.1);
+  z-index: 2;
+  text-align: center;
+  position: relative; /* Para el adorno de brillo */
+  opacity: 0; /* Inicialmente invisible */
+  transform: translateY(30px); /* Inicialmente un poco abajo */
+  transition: opacity 1s ease-out, transform 1s ease-out; /* Velocidad de la transición */
+}
+
+/* Clase para activar la animación con JavaScript */
+.thanks-card.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Contenido de la tarjeta */
+.thanks-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Marco de la foto con resplandor suave */
+.thanks-photo-wrapper {
+  width: 80%;
+  max-width: 250px;
+  margin-bottom: 25px;
+  border-radius: 50%; /* Foto circular */
+  overflow: hidden;
+  border: 5px solid white;
+  box-shadow: 0 10px 25px rgba(107, 45, 51, 0.15);
+}
+
+.thanks-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Estilos para el texto de agradecimiento */
+.thanks-text-block {
+  width: 100%;
+}
+
+.thanks-title {
+  font-family: "Cormorant Garamond", serif;
+  color: #6b2d33; /* Vino Terroso */
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  line-height: 1.3;
+}
+
+.thanks-message {
+  font-family: "Montserrat", sans-serif;
+  color: #2d2d2d; /* Negro Carbón para legibilidad */
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Adorno de brillo mágico (Efecto sutil) */
+.magic-shine {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #d4af37 0%, rgba(212, 175, 55, 0) 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: -1;
+  animation: shinePulse 3s infinite; /* El brillo late */
+}
+
+/* Animación de latido para el brillo */
+@keyframes shinePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+
+/* !control de musica */
+/* --- Botón de Música Flotante --- */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000; /* Siempre visible arriba de todo */
+    box-shadow: 0 5px 15px rgba(107, 45, 51, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.music-control:active {
+    transform: scale(0.9);
+}
+
+/* Icono de ecualizador minimalista */
+.music-icon {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 15px;
+}
+
+.bar {
+    width: 3px;
+    background-color: #6B2D33; /* Tu Vino Terroso */
+    height: 100%;
+    border-radius: 2px;
+}
+
+/* Animación cuando la música está sonando */
+.music-control.playing .bar {
+    animation: bounce 0.8s ease-in-out infinite alternate;
+}
+
+.music-control.playing .bar:nth-child(2) { animation-delay: 0.2s; }
+.music-control.playing .bar:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    from { height: 5px; }
+    to { height: 100%; }
+}
+
+
+
+/* !RESPONSIVE */
+@media (max-width: 480px) {
+  .soft-phrase {
+    font-size: 1.3rem;
+  }
+}
+
+/* responsive */
+@media (max-width: 480px) {
+  .deep-phrase {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+  .video-frame {
+    width: 90%;
+  }
+}
