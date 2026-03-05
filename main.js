@@ -2,7 +2,7 @@ const music = document.getElementById("bg-music");
 const btn = document.getElementById("music-btn");
 
 // 1. Define aquí tus canciones en orden
-const playlist = ["/musica/LOS PARRAS- PARA QUE LO NOTES (VIDEO OFICIAL) - Los Parras.mp3", "/musica/BANNERS - Someone To You  Lyrics, español - Half-blood.mp3", "/musica/Por Verte Feliz - Los parras.mp3"];
+const playlist = ["/musica/LOS PARRAS- PARA QUE LO NOTES (VIDEO OFICIAL) - Los Parras.mp3", "/musica/BANNERS - Someone To You  Lyrics, español - Half-blood.mp3"];
 let currentSongIndex = 0;
 let hasStarted = false;
 
@@ -48,6 +48,35 @@ function startAutoMusic() {
       .catch((error) => console.log("Esperando interacción..."));
   }
 }
+
+
+function handleVideoPlay() {
+    const video = document.getElementById('recap-video');
+    const frame = document.querySelector('.netflix-style');
+    const music = document.getElementById('bg-music'); // Tu música de fondo
+
+    if (video.paused) {
+        // 1. Pausar la música de fondo para escuchar el video (opcional)
+        if (music) music.pause();
+        document.getElementById('music-btn').classList.remove('playing');
+
+        // 2. Reproducir video
+        video.play();
+        frame.classList.add('is-playing');
+        video.controls = true; // Mostramos controles nativos una vez que inicia
+    } else {
+        video.pause();
+        frame.classList.remove('is-playing');
+    }
+}
+
+// Si el video termina solo, volvemos a mostrar el botón de play
+document.getElementById('recap-video').addEventListener('ended', function() {
+    document.querySelector('.netflix-style').classList.remove('is-playing');
+    this.controls = false;
+});
+
+
 
 document.addEventListener("click", startAutoMusic);
 document.addEventListener("scroll", startAutoMusic);
