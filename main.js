@@ -2,7 +2,7 @@ const music = document.getElementById("bg-music");
 const btn = document.getElementById("music-btn");
 
 // 1. Define aquí tus canciones en orden
-const playlist = ["/musica/ParaQueLoNotes.mp3", "/musica/PorVerteFeliz.mp3", "/musica/SomeoneToYou.mp3"];
+const playlist = ["musica/ParaQueLoNotes.mp3", "musica/PorVerteFeliz.mp3", "musica/SomeoneToYou.mp3"];
 let currentSongIndex = 0;
 let hasStarted = false;
 
